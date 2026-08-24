@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SHIKO POINT | شيكو بوينت 2026/27</title>
+<style>
+:root{--bg:#0a0e17;--card:#121826;--card2:#1a2234;--accent:#00e5a0;--gold:#ffd60a;--red:#ff4d6d;--text:#e8eef7;--muted:#8b9bb4;--pitch:#0d4f2b;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{padding-bottom:calc(68px + var(--safe))}
+.app{max-width:480px;margin:0 auto;min-height:100%}
+.header{background:linear-gradient(135deg,#0f172a,#1e293b);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-weight:800;font-size:1.1rem}.logo span{color:var(--accent)}
+.budget-pill{background:var(--card2);padding:6px 12px;border-radius:20px;font-size:.85rem;font-weight:600}
+.budget-pill .val{color:var(--accent)}
+.screen{display:none;padding:12px 14px 20px;animation:fadeIn .25s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,.04)}
+.card-title{font-size:.9rem;color:var(--muted);margin-bottom:8px;font-weight:600}
+.pitch-wrap{background:linear-gradient(180deg,#0a3d22,#0d4f2b 40%,#0a3d22);border-radius:18px;padding:12px 8px 20px;position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.08)}
+.formation-row{display:flex;justify-content:center;gap:6px;margin:10px 0;flex-wrap:wrap;position:relative;z-index:2}
+.player-chip{width:62px;background:rgba(0,0,0,.55);border-radius:12px;padding:6px 4px;text-align:center;border:1px solid rgba(255,255,255,.1);cursor:pointer;position:relative}
+.player-chip.captain{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.player-chip.vice{border-color:#00b4d8}
+.player-chip.empty{background:rgba(255,255,255,.06);border-style:dashed;min-height:70px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem}
+.player-chip .name{font-size:.65rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-chip .club{font-size:.58rem;color:var(--muted)}
+.player-chip .price{font-size:.58rem;color:var(--gold)}
+.c-badge,.v-badge{position:absolute;top:-6px;right:-4px;width:16px;height:16px;border-radius:50%;font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.c-badge{background:var(--gold);color:#000}.v-badge{background:#00b4d8;color:#000}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:12px;border:none;font-weight:600;font-size:.9rem;cursor:pointer}
+.btn-primary{background:var(--accent);color:#000}.btn-secondary{background:var(--card2);color:var(--text);border:1px solid rgba(255,255,255,.08)}.btn-danger{background:var(--red);color:#fff}
+.btn-sm{padding:6px 10px;font-size:.8rem;border-radius:8px}.btn-block{width:100%}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;scrollbar-width:none}
+.filter-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;background:var(--card2);font-size:.8rem;cursor:pointer}
+.filter-chip.active{background:var(--accent);color:#000;font-weight:600}
+.search-box{width:100%;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:var(--card2);color:var(--text);font-size:.95rem;margin-bottom:10px}
+.player-row{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:12px;margin-bottom:8px}
+.player-row .info{flex:1;min-width:0}.player-row .pname{font-weight:600;font-size:.9rem}.player-row .meta{font-size:.75rem;color:var(--muted)}
+.player-row .pprice{font-weight:700;color:var(--gold);font-size:.9rem}
+.pos-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:.65rem;font-weight:700;background:rgba(0,229,160,.15);color:var(--accent)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:rgba(10,14,23,.96);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-around;padding:8px 0 calc(8px + var(--safe));z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 6px;color:var(--muted);font-size:.62rem;cursor:pointer;background:none;border:none}
+.nav-item.active{color:var(--accent)}.nav-item svg{width:22px;height:22px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat-box{background:var(--card2);border-radius:12px;padding:10px;text-align:center}
+.stat-box .num{font-size:1.25rem;font-weight:800;color:var(--accent)}.stat-box .lbl{font-size:.7rem;color:var(--muted)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;padding:20px 16px calc(20px + var(--safe))}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--card2);padding:10px 18px;border-radius:12px;font-size:.85rem;z-index:300;opacity:0;transition:.3s;pointer-events:none;border:1px solid rgba(255,255,255,.1)}
+.toast.show{opacity:1}
+.rank-row{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;background:var(--card)}
+.rank-row.me{border:1px solid var(--accent)}
+.rank-num{width:28px;height:28px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.select{padding:8px 12px;border-radius:10px;background:var(--card2);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:.9rem}
+.progress-bar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-bar .fill{height:100%;background:var(--accent);border-radius:3px;transition:width .4s}
+.live-badge{display:inline-flex;align-items:center;gap:4px;background:var(--red);color:#fff;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700}
+.gw-btn{flex-shrink:0;width:40px;height:36px;border-radius:10px;background:var(--card2);border:none;color:var(--text);font-weight:600;cursor:pointer}
+.gw-btn.active{background:var(--accent);color:#000}
+.gw-selector{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+<div class="logo">SHIKO <span>POINT</span></div>
+<div class="budget-pill">💰 <span class="val" id="budgetDisplay">100.0</span>£m</div>
+</header>
+
+<div class="screen active" id="screen-home">
+<div class="card"><div class="card-title">مرحباً في شيكو بوينت</div>
+<div style="font-size:1.1rem;font-weight:700" id="teamNameDisplay">فريقي</div>
+<div style="color:var(--muted);font-size:.85rem">موسم 2026/27 • جولة <span id="currentGW">1</span></div></div>
+<div class="stats-grid">
+<div class="stat-box"><div class="num" id="totalPoints">0</div><div class="lbl">النقاط</div></div>
+<div class="stat-box"><div class="num" id="gwPoints">0</div><div class="lbl">الجولة</div></div>
+<div class="stat-box"><div class="num" id="rankDisplay">—</div><div class="lbl">الترتيب</div></div>
+</div>
+<div class="card" style="margin-top:12px"><div class="card-title">حالة الفريق</div>
+<div id="teamStatus">أكمل تشكيلتك من السوق</div>
+<div class="progress-bar"><div class="fill" id="teamProgress" style="width:0%"></div></div></div>
+<button class="btn btn-primary btn-block" onclick="showScreen('team')" style="margin-top:8px">عرض فريقي ⚽</button>
+</div>
+
+<div class="screen" id="screen-team">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<select class="select" id="formationSelect" onchange="changeFormation(this.value)">
+<option value="4-3-3">4-3-3</option><option value="4-4-2">4-4-2</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="4-5-1">4-5-1</option>
+</select>
+<button class="btn btn-sm btn-secondary" onclick="autoFill()">ملء تلقائي</button>
+</div>
+<div class="pitch-wrap" id="pitch"><div id="pitchRows"></div></div>
+<div class="card" style="margin-top:12px"><div class="card-title">الدكة</div><div id="benchArea" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
+<div style="display:flex;gap:8px;margin-top:10px">
+<button class="btn btn-secondary btn-block" onclick="showScreen('market')">السوق</button>
+<button class="btn btn-primary btn-block" onclick="saveTeam()">حفظ ✓</button>
+</div>
+</div>
+
+<div class="screen" id="screen-market">
+<input type="text" class="search-box" id="searchInput" placeholder="ابحث عن لاعب..." oninput="renderMarket()">
+<div class="filters" id="posFilters">
+<div class="filter-chip active" data-pos="ALL" onclick="setPosFilter('ALL')">الكل</div>
+<div class="filter-chip" data-pos="GK" onclick="setPosFilter('GK')">حراس</div>
+<div class="filter-chip" data-pos="DEF" onclick="setPosFilter('DEF')">دفاع</div>
+<div class="filter-chip" data-pos="MID" onclick="setPosFilter('MID')">وسط</div>
+<div class="filter-chip" data-pos="FWD" onclick="setPosFilter('FWD')">هجوم</div>
+</div>
+<div id="marketList"></div>
+</div>
+
+<div class="screen" id="screen-fixtures">
+<div class="card-title">الجولات</div>
+<div class="gw-selector" id="gwSelector"></div>
+<div id="fixturesList"></div>
+<button class="btn btn-primary btn-block" style="margin-top:12px" onclick="simulateGW()">محاكاة الجولة ⚡</button>
+</div>
+
+<div class="screen" id="screen-live">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+<span class="live-badge">LIVE</span>
+<span style="font-weight:700">نقاط الجولة <span id="liveGW">1</span></span>
+</div>
+<div class="stats-grid" style="margin-bottom:12px">
+<div class="stat-box"><div class="num" id="liveTotal">0</div><div class="lbl">المجموع</div></div>
+<div class="stat-box"><div class="num" id="liveCaptain">0</div><div class="lbl">الكابتن</div></div>
+<div class="stat-box"><div class="num" id="liveRank">—</div><div class="lbl">الترتيب</div></div>
+</div>
+<div id="livePlayers"></div>
+</div>
+
+<div class="screen" id="screen-rankings">
+<div class="card-title">الترتيب العام</div>
+<div id="rankingsList"></div>
+</div>
+
+<div class="screen" id="screen-profile">
+<div class="card" style="text-align:center">
+<div style="font-size:2.5rem">👤</div>
+<div style="font-weight:700;font-size:1.2rem" id="profileName">مدير شيكو</div>
+<div style="color:var(--muted);font-size:.85rem">المستوى <span id="levelDisplay">1</span></div>
+<div class="stats-grid" style="margin-top:12px">
+<div class="stat-box"><div class="num" id="profPoints">0</div><div class="lbl">نقاط</div></div>
+<div class="stat-box"><div class="num" id="profTransfers">0</div><div class="lbl">انتقالات</div></div>
+<div class="stat-box"><div class="num" id="profGW">1</div><div class="lbl">جولة</div></div>
+</div>
+</div>
+<button class="btn btn-secondary btn-block" onclick="resetGame()">إعادة تعيين</button>
+</div>
+
+<nav class="bottom-nav">
+<button class="nav-item active" data-screen="home" onclick="showScreen('home')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
+<button class="nav-item" data-screen="team" onclick="showScreen('team')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>فريقي</button>
+<button class="nav-item" data-screen="market" onclick="showScreen('market')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>السوق</button>
+<button class="nav-item" data-screen="fixtures" onclick="showScreen('fixtures')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>الجولات</button>
+<button class="nav-item" data-screen="rankings" onclick="showScreen('rankings')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>الترتيب</button>
+<button class="nav-item" data-screen="profile" onclick="showScreen('profile')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>حسابي</button>
+</nav>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)"><div class="modal" id="modalContent" onclick="event.stopPropagation()"></div></div>
+<script src="js/data.js"></script>
+<script>
+const STORAGE_KEY='shiko_point_v1';
+let state={budget:100,team:{GK:[],DEF:[],MID:[],FWD:[],BENCH:[]},captain:null,vice:null,formation:'4-3-3',totalPoints:0,gwPoints:0,currentGW:1,transfersMade:0,level:1,achievements:[],missionsDone:[],history:[],playerPrices:{},name:'مدير شيكو'};
+function loadState(){try{const r=localStorage.getItem(STORAGE_KEY);if(r)state={...state,...JSON.parse(r)}}catch(e){}SHIKO_DATA.players.forEach(p=>{if(!state.playerPrices[p.id])state.playerPrices[p.id]=p.price})}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.screen===id));if(id==='team')renderPitch();if(id==='market')renderMarket();if(id==='home')renderHome();if(id==='fixtures')renderFixtures();if(id==='live')renderLive();if(id==='rankings')renderRankings();if(id==='profile')renderProfile()}
+function getSquadIds(){const ids=[];['GK','DEF','MID','FWD','BENCH'].forEach(pos=>(state.team[pos]||[]).forEach(id=>ids.push(id)));return ids}
+function getPlayer(id){return SHIKO_DATA.players.find(p=>p.id===id)}
+function getPrice(id){return state.playerPrices[id]||(getPlayer(id)?.price||0)}
+function squadCount(){return getSquadIds().length}
+function neededForFormation(){const f=SHIKO_DATA.formations[state.formation];return{GK:1,DEF:f.DEF,MID:f.MID,FWD:f.FWD,BENCH:4}}
+function canAdd(player){const ids=getSquadIds();if(ids.includes(player.id))return{ok:false,msg:'موجود'};if(ids.length>=15)return{ok:false,msg:'مكتمل'};const price=getPrice(player.id);if(state.budget<price)return{ok:false,msg:'ميزانية'};const clubCount=ids.filter(id=>getPlayer(id)?.club===player.club).length;if(clubCount>=3)return{ok:false,msg:'حد النادي'};const need=neededForFormation();const posCount=(state.team[player.pos]||[]).length;const benchCount=(state.team.BENCH||[]).length;if(posCount<need[player.pos])return{ok:true};if(benchCount<4)return{ok:true,bench:true};return{ok:false,msg:'لا مكان'}}
+function addPlayer(player){const check=canAdd(player);if(!check.ok){toast(check.msg);return}const price=getPrice(player.id);state.budget=Math.round((state.budget-price)*10)/10;if(check.bench)state.team.BENCH.push(player.id);else state.team[player.pos].push(player.id);state.transfersMade++;saveState();updateBudgetUI();toast('تم شراء '+player.name);renderMarket();if(document.getElementById('screen-team').classList.contains('active'))renderPitch()}
+function removePlayer(id){const price=getPrice(id);let found=false;['GK','DEF','MID','FWD','BENCH'].forEach(pos=>{const idx=(state.team[pos]||[]).indexOf(id);if(idx>-1){state.team[pos].splice(idx,1);found=true}});if(found){state.budget=Math.round((state.budget+price)*10)/10;if(state.captain===id)state.captain=null;if(state.vice===id)state.vice=null;state.transfersMade++;saveState();updateBudgetUI();toast('تم البيع');renderPitch();renderMarket()}}
+function setCaptain(id){if(!getSquadIds().includes(id))return;state.captain=id;if(state.vice===id)state.vice=null;saveState();renderPitch();toast('كابتن')}
+function setVice(id){if(!getSquadIds().includes(id)||id===state.captain)return;state.vice=id;saveState();renderPitch();toast('نائب')}
+function changeFormation(f){state.formation=f;const need=neededForFormation();['DEF','MID','FWD'].forEach(pos=>{while((state.team[pos]||[]).length>need[pos]){const id=state.team[pos].pop();if((state.team.BENCH||[]).length<4)state.team.BENCH.push(id);else state.budget+=getPrice(id)}});saveState();renderPitch()}
+function autoFill(){const need=neededForFormation();const sorted=[...SHIKO_DATA.players].sort((a,b)=>b.form-a.form);const ids=getSquadIds();['GK','DEF','MID','FWD'].forEach(pos=>{while((state.team[pos]||[]).length<need[pos]){const cand=sorted.find(p=>p.pos===pos&&!ids.includes(p.id)&&canAdd(p).ok);if(!cand)break;addPlayer(cand);ids.push(cand.id)}});while((state.team.BENCH||[]).length<4){const cand=sorted.find(p=>!ids.includes(p.id)&&canAdd(p).ok);if(!cand)break;addPlayer(cand);ids.push(cand.id)}toast('تم الملء')}
+function updateBudgetUI(){document.getElementById('budgetDisplay').textContent=state.budget.toFixed(1)}
+function renderPitch(){const need=neededForFormation();const rows=document.getElementById('pitchRows');rows.innerHTML='';[['FWD',need.FWD],['MID',need.MID],['DEF',need.DEF],['GK',1]].forEach(([pos,n])=>{const row=document.createElement('div');row.className='formation-row';for(let i=0;i<n;i++)row.appendChild(makeChip((state.team[pos]||[])[i],pos));rows.appendChild(row)});const bench=document.getElementById('benchArea');bench.innerHTML='';for(let i=0;i<4;i++)bench.appendChild(makeChip((state.team.BENCH||[])[i],'BENCH',true));document.getElementById('formationSelect').value=state.formation}
+function makeChip(id,pos){const div=document.createElement('div');if(!id){div.className='player-chip empty';div.textContent=pos==='BENCH'?'+':pos;div.onclick=()=>showScreen('market');return div}const p=getPlayer(id);if(!p)return div;div.className='player-chip'+(state.captain===id?' captain':'')+(state.vice===id?' vice':'');div.innerHTML=`<div class="name">${p.name.split(' ').pop()}</div><div class="club">${p.club}</div><div class="price">${getPrice(id).toFixed(1)}</div>${state.captain===id?'<div class="c-badge">C</div>':''}${state.vice===id?'<div class="v-badge">V</div>':''}`;div.onclick=()=>openPlayerModal(id);return div}
+function openPlayerModal(id){const p=getPlayer(id);if(!p)return;const inTeam=getSquadIds().includes(id);const price=getPrice(id);let html=`<h3 style="margin-bottom:8px">${p.name}</h3><div style="color:var(--muted);margin-bottom:12px">${p.club} • ${p.pos} • ${price.toFixed(1)}£m</div><div class="stats-grid" style="margin-bottom:14px"><div class="stat-box"><div class="num">${p.form}</div><div class="lbl">فورم</div></div><div class="stat-box"><div class="num">${p.goals}</div><div class="lbl">أهداف</div></div><div class="stat-box"><div class="num">${p.assists}</div><div class="lbl">تمريرات</div></div></div>`;if(inTeam)html+=`<button class="btn btn-primary btn-block" onclick="setCaptain(${id});closeModal()">كابتن</button><button class="btn btn-secondary btn-block" style="margin-top:8px" onclick="setVice(${id});closeModal()">نائب</button><button class="btn btn-danger btn-block" style="margin-top:8px" onclick="removePlayer(${id});closeModal()">بيع</button>`;else html+=`<button class="btn btn-primary btn-block" onclick="addPlayer(getPlayer(${id}));closeModal()">شراء</button>`;document.getElementById('modalContent').innerHTML=html;document.getElementById('modalOverlay').classList.add('show')}
+function closeModal(e){if(!e||e.target===document.getElementById('modalOverlay'))document.getElementById('modalOverlay').classList.remove('show')}
+let marketPos='ALL';
+function setPosFilter(pos){marketPos=pos;document.querySelectorAll('#posFilters .filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.pos===pos));renderMarket()}
+function renderMarket(){const q=(document.getElementById('searchInput')?.value||'').toLowerCase();const list=document.getElementById('marketList');let players=SHIKO_DATA.players.filter(p=>{if(marketPos!=='ALL'&&p.pos!==marketPos)return false;if(q&&!p.name.toLowerCase().includes(q)&&!p.club.toLowerCase().includes(q))return false;return true});players.sort((a,b)=>getPrice(b.id)-getPrice(a.id));list.innerHTML=players.map(p=>{const inTeam=getSquadIds().includes(p.id);const price=getPrice(p.id);return`<div class="player-row"><div class="info"><div class="pname">${p.name} ${inTeam?'✓':''}</div><div class="meta"><span class="pos-badge">${p.pos}</span> ${p.club} • فورم ${p.form}</div></div><div class="pprice">${price.toFixed(1)}</div><button class="btn btn-sm ${inTeam?'btn-danger':'btn-primary'}" onclick="${inTeam?'removePlayer('+p.id+')':'addPlayer(getPlayer('+p.id+'))'}">${inTeam?'بيع':'شراء'}</button></div>`}).join('')}
+function renderHome(){document.getElementById('totalPoints').textContent=state.totalPoints;document.getElementById('gwPoints').textContent=state.gwPoints;document.getElementById('currentGW').textContent=state.currentGW;document.getElementById('budgetDisplay').textContent=state.budget.toFixed(1);const count=squadCount();document.getElementById('teamProgress').style.width=Math.min(100,(count/15)*100)+'%';document.getElementById('teamStatus').textContent=count<15?`أكمل التشكيلة (${count}/15)`:'الفريق جاهز ✅'}
+function renderFixtures(){const sel=document.getElementById('gwSelector');sel.innerHTML='';for(let g=1;g<=8;g++){const btn=document.createElement('button');btn.className='gw-btn'+(g===state.currentGW?' active':'');btn.textContent=g;btn.onclick=()=>{state.currentGW=g;saveState();renderFixtures()};sel.appendChild(btn)}const list=document.getElementById('fixturesList');const fxs=SHIKO_DATA.fixtures.filter(f=>f.gw===state.currentGW);list.innerHTML=fxs.map(f=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">${f.home}</span><span style="color:var(--muted)">vs</span><span style="font-weight:600">${f.away}</span></div>`).join('')||'<div style="text-align:center;color:var(--muted);padding:20px">لا مباريات</div>'}
+function renderLive(){document.getElementById('liveGW').textContent=state.currentGW;document.getElementById('liveTotal').textContent=state.gwPoints;const last=state.history.find(h=>h.gw===state.currentGW-1||h.gw===state.currentGW);document.getElementById('liveCaptain').textContent=last?.captainPts||0;const ids=getSquadIds().slice(0,11);document.getElementById('livePlayers').innerHTML=ids.map(id=>{const p=getPlayer(id);const pts=last?.playerPts?.[id]||0;return`<div class="player-row"><div class="info"><div class="pname">${p?.name||id} ${state.captain===id?'(C)':''}</div><div class="meta">${p?.club}</div></div><div class="pprice" style="color:var(--accent)">${pts}</div></div>`}).join('')||'<div style="text-align:center;color:var(--muted);padding:30px">أكمل فريقك</div>'}
+function renderRankings(){const me={name:state.name,points:state.totalPoints,me:true};const bots=[{name:'Ahmed FPL',points:state.totalPoints+42},{name:'Sara M',points:state.totalPoints+18},{name:'Khaled',points:state.totalPoints-12},{name:'Nour',points:state.totalPoints+55},{name:'Omar',points:state.totalPoints-30}];const all=[me,...bots].sort((a,b)=>b.points-a.points);document.getElementById('rankingsList').innerHTML=all.map((r,i)=>`<div class="rank-row ${r.me?'me':''}"><div class="rank-num">${i+1}</div><div style="flex:1;font-weight:600">${r.name}</div><div style="color:var(--accent);font-weight:700">${r.points}</div></div>`).join('');document.getElementById('rankDisplay').textContent='#'+(all.findIndex(r=>r.me)+1)}
+function renderProfile(){document.getElementById('profileName').textContent=state.name;document.getElementById('levelDisplay').textContent=state.level;document.getElementById('profPoints').textContent=state.totalPoints;document.getElementById('profTransfers').textContent=state.transfersMade;document.getElementById('profGW').textContent=state.currentGW}
+function saveTeam(){if(squadCount()<11){toast('تحتاج 11 لاعب');return}if(!state.captain){toast('اختر كابتن');return}saveState();toast('تم الحفظ ✓')}
+function simulateGW(){if(squadCount()<11){toast('أكمل الفريق');return}if(!state.captain){toast('اختر كابتن');return}const playerPts={};let total=0;const need=neededForFormation();const starters=[];['GK','DEF','MID','FWD'].forEach(pos=>(state.team[pos]||[]).slice(0,need[pos]||1).forEach(id=>starters.push(id)));starters.forEach(id=>{const p=getPlayer(id);if(!p)return;let pts=Math.round(p.expectedPoints*(0.7+Math.random()*0.6)*(p.form/8));if(p.pos!=='GK'&&Math.random()<p.form/25)pts+=(SHIKO_DATA.scoring.goal[p.pos]||4);if(Math.random()<0.25)pts+=3;if((p.pos==='GK'||p.pos==='DEF')&&Math.random()<0.35)pts+=4;if(Math.random()<0.12)pts-=1;pts=Math.max(0,Math.min(18,pts));playerPts[id]=pts;total+=id===state.captain?pts*2:pts});state.gwPoints=total;state.totalPoints+=total;state.history.push({gw:state.currentGW,points:total,playerPts,captainPts:(playerPts[state.captain]||0)*2});Object.keys(playerPts).forEach(id=>{const pts=playerPts[id];let ch=0;if(pts>=10)ch=0.1;else if(pts<=1)ch=-0.1;state.playerPrices[id]=Math.max(3.5,Math.round((state.playerPrices[id]+ch)*10)/10)});state.currentGW++;state.level=Math.floor(state.totalPoints/50)+1;saveState();toast('نقاط الجولة: '+total+' 🔥');showScreen('live')}
+function resetGame(){if(confirm('إعادة تعيين؟')){localStorage.removeItem(STORAGE_KEY);location.reload()}}
+loadState();updateBudgetUI();renderHome();
+</script>
+</body>
+</html>
